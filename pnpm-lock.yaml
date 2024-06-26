@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@unocss/reset':
+    specifier: ^0.61.0
+    version: 0.61.0
   nuxt:
     specifier: ^3.12.2
     version: 3.12.2(@opentelemetry/api@1.9.0)(vite@5.3.1)
@@ -19,6 +22,9 @@ devDependencies:
   '@unocss/nuxt':
     specifier: ^0.61.0
     version: 0.61.0(postcss@8.4.38)(vite@5.3.1)(webpack@5.92.1)
+  unocss:
+    specifier: ^0.61.0
+    version: 0.61.0(@unocss/webpack@0.61.0)(postcss@8.4.38)(vite@5.3.1)
 
 packages:
 
@@ -2296,7 +2302,6 @@ packages:
 
   /@unocss/reset@0.61.0:
     resolution: {integrity: sha512-VqemtmzH8Rgu5yNomtv50gIcy4KZ2x1aP+7WZCds9x5ZdTSEjbfCOgUDI9rDrrGSipJkCmJ1yOhUPMC7ND6Hfw==}
-    dev: true
 
   /@unocss/rule-utils@0.61.0:
     resolution: {integrity: sha512-MCdmfhE6Q9HSWjWqi2sx5/nnKyOEhfhoo+pVumHIqkHQICQ/LuKioFf7Y7e5ycqjFE/7dC2hKGZJ8WTMGIOMwA==}
