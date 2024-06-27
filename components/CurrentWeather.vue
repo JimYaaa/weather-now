@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import type { CurrentWeather, CurrentWeatherUnit } from '~~/composables/useWeather'
+import type { CurrentWeatherAPIRes, CurrentWeatherUnitAPIRes } from '~~/composables/useWeather'
 import type { Gecoding } from '~~/composables/useLocation'
 
 const props = defineProps({
     weather: {
         required: true,
-        type: Object as PropType<CurrentWeather>
+        type: Object as PropType<CurrentWeatherAPIRes>
     },
     weatherUnits: {
         required: true,
-        type: Object as PropType<CurrentWeatherUnit>
+        type: Object as PropType<CurrentWeatherUnitAPIRes>
     },
     location: {
         required: true,

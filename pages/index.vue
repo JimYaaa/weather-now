@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import SearchInput from '~~/components/SearchInput.vue'
 import CurrentWeather from '~~/components/CurrentWeather.vue'
+import WeatherForecast from '~~/components/WeatherForecast.vue'
 
 const search = ref<string>('')
 const gecoding = reactive<{
@@ -15,9 +16,10 @@ const { data: location, } = await useLocation(search)
 const currentLocation = computed(() => location.value ? location.value.results[0] : null)
 
 const {
-    responses,
+    weather,
     currentWeather,
     currentWeatherUnits,
+    weatherForeast,
     isPending
 } = await useWeather(gecoding)
 
@@ -25,7 +27,9 @@ const {
 watch(currentLocation, async (newLocation) => {
     gecoding.latitude = newLocation?.latitude || null
     gecoding.longitude = newLocation?.longitude || null
-    console.log('INDEX Weather', responses)
+
+    console.log('weather', weather)
+    console.log('daily', weatherForeast)
 })
 </script>
 
@@ -45,13 +49,17 @@ watch(currentLocation, async (newLocation) => {
                 mx-auto mt-16 
             "
         >
-            <div v-if="currentWeather && currentWeatherUnits" class="flex">
+            <div v-if="currentWeather && currentWeatherUnits" class="flex flex-col">
                 <div>
                     <CurrentWeather
                         :weather="currentWeather"
                         :weatherUnits="currentWeatherUnits"
                         :location="currentLocation"
                     />
+                </div>
+
+                <div class="mt-4.5">
+                    <WeatherForecast :weathers="weatherForeast" />
                 </div>
             </div>
         </div>

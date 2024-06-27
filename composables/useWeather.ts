@@ -3,7 +3,7 @@ export type WeatherParams = {
     longitude: number | null
 }
 
-export interface CurrentWeather {
+export interface CurrentWeatherAPIRes {
     relative_humidity_2m: number
     temperature_2m: number
     time: string
@@ -11,10 +11,35 @@ export interface CurrentWeather {
     wind_speed_10m: number
 }
 
-export interface CurrentWeatherUnit {
+export interface CurrentWeatherUnitAPIRes {
     relative_humidity_2m: string
     temperature_2m: string
     wind_speed_10m: string
+}
+
+export interface DailyWeatherAPIRes {
+    temperature_2m_max: number[];
+    temperature_2m_min: number[];
+    time: string[];
+    weather_code: number[];
+}
+
+export interface DailyUnitsAPIRes {
+    temperature_2m_max: number
+    temperature_2m_min: number
+}
+export interface WeatherAPIRes {
+    current: CurrentWeatherAPIRes,
+    current_units: CurrentWeatherUnitAPIRes,
+    daily: DailyWeatherAPIRes,
+    daily_units: DailyUnitsAPIRes,
+}
+
+export interface DailyWeather {
+    temperature_max: number;
+    temperature_min: number;
+    time: string;
+    weather: string;
 }
 
 export const useWeather = async (gecoding: WeatherParams) => {
@@ -48,12 +73,12 @@ export const useWeather = async (gecoding: WeatherParams) => {
         [96, 'thunderstormSlightHail'],
         [99, 'thunderstormHeavyHail'],
     ])
-    let responses = ref<any>(null)
+    let weather = ref<WeatherAPIRes | null>(null)
     let isPending = ref<boolean>(false)
 
     watch(gecoding, async () => {
         if (!gecoding.latitude || !gecoding.longitude) {
-            responses.value = null
+            weather.value = null
             return
         }
 
@@ -61,37 +86,53 @@ export const useWeather = async (gecoding: WeatherParams) => {
             "latitude": gecoding.latitude,
             "longitude": gecoding.longitude,
             "current": ["temperature_2m", "relative_humidity_2m", "weather_code", "wind_speed_10m"],
-            "hourly": "temperature_2m",
-            "daily": "weather_code"
+            "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min"],
         }
         const url = "https://api.open-meteo.com/v1/forecast"
 
         isPending.value = true
 
-        const res = await $fetch(url, { method: 'GET', params })
+        const res = await $fetch<WeatherAPIRes>(url, { method: 'GET', params })
 
-        responses.value = res
+        weather.value = res
         isPending.value = false
     }, {
         deep: true
     })
 
     const currentWeather = computed(() => {
-      if (!responses.value) return null
+      if (!weather.value) return null
 
-      return responses.value.current
+      return weather.value.current
     })
 
     const currentWeatherUnits = computed(() => {
-      if (!responses.value) return null
+      if (!weather.value) return null
 
-      return responses.value.current_units
+      return weather.value.current_units
+    })
+
+    const weatherForeast = computed<DailyWeather[]>(() => {
+        if (!weather.value) return []
+
+        const daily = weather.value.daily
+        const dailyUnits = weather.value.daily_units
+
+        return daily.time
+            .slice(0, 5)
+            .map((time: string, index: number) => ({
+                temperature_max: Math.floor(daily.temperature_2m_max[index]) + dailyUnits.temperature_2m_max,
+                temperature_min: Math.floor(daily.temperature_2m_min[index]) + dailyUnits.temperature_2m_min,
+                time: useDateFormat(time, 'ddd', { locales: 'en-US' }).value,
+                weather: weatherCodes.get(daily.weather_code[index]) || ''
+            }))
     })
 
     return {
-        responses,
+        weather,
         currentWeather,
         currentWeatherUnits,
+        weatherForeast,
         isPending,
     }
 }
