@@ -10,7 +10,10 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/icon": "^1.0.0",
     "@unocss/reset": "^0.61.0",
+    "@vueuse/core": "^10.11.0",
+    "@vueuse/nuxt": "^10.11.0",
     "nuxt": "^3.12.2",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
