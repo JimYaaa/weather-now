@@ -23,7 +23,7 @@ const props = defineProps({
             >
                 <p class="w-50px">{{ index === 0 ? 'Today' : weather.time }}</p>
 
-                <Icon class="color-white mx-4" name="wi:day-cloudy" size="35" />
+                <Icon class="color-white mx-4" :name="weather.weather" size="35" />
 
                 <div class="flex items-center justify-between flex-1">
                     <p class="font-sans font-bold">{{ weather.temperature_min }}</p>
