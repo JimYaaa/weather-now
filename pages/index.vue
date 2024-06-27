@@ -12,15 +12,15 @@ const gecoding = reactive<{
     longitude: 0,
 })
 
-const { data: location, } = await useLocation(search)
-const currentLocation = computed(() => location.value ? location.value.results[0] : null)
+const { data: location, isPending: isLocationPending } = await useLocation(search)
+const currentLocation = computed(() => location.value ? location.value?.results?.[0] : null)
 
 const {
     weather,
     currentWeather,
     currentWeatherUnits,
     weatherForeast,
-    isPending
+    isPending: isWeatherPending
 } = await useWeather(gecoding)
 
 
@@ -37,31 +37,49 @@ watch(currentLocation, async (newLocation) => {
     <div class="
             relative
             w-full min-h-100vh
+            flex justify-center items-center
             p-10
             bg-[url('/raining-day.jpg')] bg-cover bg-no-repeat
         "
     >
-        <SearchInput class="mx-auto my-0" v-model="search" />
-
         <div class="
-                flex justify-center
-                w-80% h-[calc(100vh-35px-80px-64px)]
-                mx-auto mt-16 
+                w-full max-w-600px h-[calc(100vh-80px)]
+                flex flex-col justify-between items-center
             "
         >
-            <div v-if="currentWeather && currentWeatherUnits" class="flex flex-col">
-                <div>
-                    <CurrentWeather
-                        :weather="currentWeather"
-                        :weatherUnits="currentWeatherUnits"
-                        :location="currentLocation"
-                    />
+            <SearchInput v-model="search" />
+
+            <Transition mode="out-in">
+                <div v-if="isLocationPending || isWeatherPending" class="flex justify-center items-center h-full color-white text-20">
+                    <Icon class="color-white" name="svg-spinners:eclipse-half" size="100" />
                 </div>
 
-                <div class="mt-4.5">
-                    <WeatherForecast :weathers="weatherForeast" />
+                <div v-else-if="currentWeather && currentWeatherUnits && !isLocationPending && !isWeatherPending" class="w-full h-full flex flex-col justify-around">
+                    <div class="w-full">
+                        <CurrentWeather
+                            :weather="currentWeather"
+                            :weatherUnits="currentWeatherUnits"
+                            :location="currentLocation"
+                        />
+                    </div>
+    
+                    <div class="w-full">
+                        <WeatherForecast :weathers="weatherForeast" />
+                    </div>
                 </div>
-            </div>
+            </Transition>
         </div>
     </div>
 </template>
+
+<style lang="scss" scope>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>

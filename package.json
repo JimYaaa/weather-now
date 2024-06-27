@@ -23,6 +23,7 @@
     "@iconify-json/wi": "^1.1.8",
     "@unocss/nuxt": "^0.61.0",
     "@unocss/preset-web-fonts": "^0.61.0",
+    "sass": "^1.77.6",
     "unocss": "^0.61.0"
   }
 }

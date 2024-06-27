@@ -5,7 +5,7 @@ const modelValue = defineModel()
 <template>
     <div
         class="
-            w-280px
+            w-full
             px-1.6
             flex items-center
             bg-white/50

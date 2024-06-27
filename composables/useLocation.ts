@@ -23,12 +23,15 @@ export interface Gecoding {
 
 export const useLocation = async (name: Ref<string>) => {
     const data = ref<{ generationtime_ms: Number, results: Gecoding[] } | null>(null)
+    const isPending = ref(false)
 
     watch(name, useDebounceFn(async (newName) => {
         if (!newName) {
             data.value = null
             return
         }
+
+        isPending.value = true
 
         const response = await $fetch<{ generationtime_ms: Number, results: Gecoding[]}>('https://geocoding-api.open-meteo.com/v1/search', {
             method: 'GET',
@@ -39,9 +42,11 @@ export const useLocation = async (name: Ref<string>) => {
         })
 
         data.value = response
-    }, 300))
+        isPending.value = false
+    }, 500))
 
     return {
         data,
+        isPending,
     }
 }
