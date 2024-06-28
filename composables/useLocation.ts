@@ -27,7 +27,7 @@ export const useLocation = async (name: Ref<string>) => {
     const isPending = ref(false)
     const gecodingNotFoundMessage = ref('')
 
-    watch(name, useDebounceFn(async (newName) => {
+    watch(name, useDebounceFn(async (newName, oldName) => {
         if (!newName) {
             data.value = null
             return

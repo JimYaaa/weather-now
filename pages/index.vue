@@ -30,7 +30,6 @@ const gecoding = reactive<{
 const {
     weather,
     currentWeather,
-    currentWeatherUnits,
     weatherForeast,
     isPending: isWeatherPending,
     isError: isWeatherError,
@@ -94,13 +93,12 @@ const isError = computed(() => isWeatherError.value || isLocationError.value)
                 </div>
 
                 <div
-                    v-else-if="currentWeather && currentWeatherUnits && !isPending"
+                    v-else-if="currentWeather && !isPending"
                     class="w-full h-full flex flex-col justify-around"
                 >
                     <div class="w-full">
                         <CurrentWeather
                             :weather="currentWeather"
-                            :weatherUnits="currentWeatherUnits"
                             :location="currentLocation"
                         />
                     </div>

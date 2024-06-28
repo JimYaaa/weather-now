@@ -18,10 +18,10 @@ export interface CurrentWeatherUnitAPIRes {
 }
 
 export interface DailyWeatherAPIRes {
-    temperature_2m_max: number[];
-    temperature_2m_min: number[];
-    time: string[];
-    weather_code: number[];
+    temperature_2m_max: number[]
+    temperature_2m_min: number[]
+    time: string[]
+    weather_code: number[]
 }
 
 export interface DailyUnitsAPIRes {
@@ -29,17 +29,28 @@ export interface DailyUnitsAPIRes {
     temperature_2m_min: number
 }
 export interface WeatherAPIRes {
-    current: CurrentWeatherAPIRes,
-    current_units: CurrentWeatherUnitAPIRes,
-    daily: DailyWeatherAPIRes,
-    daily_units: DailyUnitsAPIRes,
+    current: CurrentWeatherAPIRes
+    current_units: CurrentWeatherUnitAPIRes
+    daily: DailyWeatherAPIRes
+    daily_units: DailyUnitsAPIRes
 }
 
 export interface DailyWeather {
-    temperature_max: number;
-    temperature_min: number;
-    time: string;
-    weather: string;
+    temperature_max: number
+    temperature_min: number
+    time: string
+    weather: string
+}
+
+export interface CurrentWeather {
+    weather_code: string
+    temperature_celsius: number
+    temperature_celsius_unit: string
+    temperature_fahrenheit: number
+    temperature_fahrenheit_unit: string
+    relative_humidity: string
+    wind_speed: number
+    wind_speed_unit: string
 }
 
 export const weatherCodes = new Map([
@@ -241,6 +252,8 @@ export const weatherCodes = new Map([
     ],
 ])
 
+import celsiusToFahrenheit from '~~/utils/celsiusToFahrenheit'
+
 export const useWeather = async (gecoding: WeatherParams) => {
     const weather = ref<WeatherAPIRes | null>(null)
     const isPending = ref<boolean>(false)
@@ -290,16 +303,21 @@ export const useWeather = async (gecoding: WeatherParams) => {
     })
 
     const currentWeather = computed(() => {
-      if (!weather.value) return null
+        if (!weather.value) return null
 
-      return weather.value.current
-    })
+        const { current, current_units } = weather.value
 
-    const currentWeatherUnits = computed(() => {
-      if (!weather.value) return null
-
-      return weather.value.current_units
-    })
+        return {
+            weather_code: weatherCodes.get(weather.value.current.weather_code)?.get('weatherIcon') || '',
+            temperature_celsius: Math.floor(current.temperature_2m),
+            temperature_celsius_unit: current_units.temperature_2m,
+            temperature_fahrenheit: celsiusToFahrenheit(current.temperature_2m),
+            temperature_fahrenheit_unit: '°F',
+            relative_humidity: current.relative_humidity_2m + current_units.relative_humidity_2m,
+            wind_speed: current.wind_speed_10m,
+            wind_speed_unit: current_units.wind_speed_10m,
+        }
+    }) 
 
     const weatherForeast = computed<DailyWeather[]>(() => {
         if (!weather.value) return []
@@ -320,7 +338,6 @@ export const useWeather = async (gecoding: WeatherParams) => {
     return {
         weather,
         currentWeather,
-        currentWeatherUnits,
         weatherForeast,
         isPending,
         isError,
