@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { CurrentWeather } from '~~/composables/useWeather'
-import type { Gecoding } from '~~/composables/useLocation'
+import type { Gecoding } from '~~/entities/gecoding'
+import type { CurrentWeather } from '~~/entities/weather'
 
 const props = defineProps({
     weather: {

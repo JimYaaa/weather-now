@@ -3,11 +3,12 @@ import SearchInput from '~~/components/SearchInput.vue'
 import CurrentWeather from '~~/components/CurrentWeather.vue'
 import WeatherForecast from '~~/components/WeatherForecast.vue'
 import WeatherList from '~~/components/WeatherList.vue'
-import type { Gecoding } from '~~/composables/useLocation'
+import type { Gecoding } from '~~/entities/gecoding'
+import type { WeatherStore } from '~~/entities/weather'
 
 const search = ref<string>('')
 const temperatureUnit = ref<string>('celsius')
-const weatherStore = ref<any>([])
+const weatherStore = ref<WeatherStore[]>([])
 const selectedWeatherIndex = ref<number | null>(null)
 
 const { 
@@ -34,7 +35,7 @@ watch(location, (newLocation) => {
     }
 
     // when user search the location is already in weatherStore change selectedWeatherIndex to highlight list item.
-    const weatherStoreIndex = weatherStore.value.findIndex((weather: any) => weather.id === newLocation.results.id)
+    const weatherStoreIndex = weatherStore.value.findIndex((weather: WeatherStore) => weather.id === newLocation.results.id)
     if (weatherStoreIndex !== -1) selectedWeatherIndex.value = weatherStoreIndex
 
     gecoding.value = newLocation.results

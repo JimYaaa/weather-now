@@ -1,10 +1,4 @@
-export interface Gecoding {
-    id: number
-    name: string
-    latitude: number | null
-    longitude: number | null
-    country: string
-}
+import type { Gecoding } from '~~/entities/gecoding'
 
 export const useLocation = async (name: Ref<string>) => {
     const data = ref<{ generationtime_ms: Number, results: Gecoding }>({

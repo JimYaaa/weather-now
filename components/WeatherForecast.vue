@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { DailyWeather } from '~~/composables/useWeather'
+import type { DailyWeather } from '~~/entities/weather.ts'
 
 const props = defineProps({
     weathers: {

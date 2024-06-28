@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { WeatherInfo } from '~~/composables/useWeather'
-import type { Gecoding } from '~~/composables/useLocation'
+import type { WeatherInfo, WeatherStore } from '~~/entities/weather.ts'
+import type { Gecoding } from '~~/entities/gecoding'
 import { useStorage } from '@vueuse/core'
 
 
@@ -8,7 +8,7 @@ const gecoding = defineModel('gecoding', {
     type: Object as PropType<Gecoding>,
 })
 const weatherStore = defineModel('weatherStore', {
-    type: Array<any>,
+    type: Array<WeatherStore>,
     default: []
 })
 const props = defineProps({
@@ -36,7 +36,7 @@ function addWeather(weatherInfo: WeatherInfo) {
 
     if (!currentWeather) return
 
-    const isExited = weatherStore.value.find((weather: any) => (weather.id === location.id) && location.id)
+    const isExited = weatherStore.value.find((weather: WeatherStore) => (weather.id === location.id) && location.id)
 
     if (isExited) return
 
