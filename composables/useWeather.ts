@@ -25,8 +25,8 @@ export interface DailyWeatherAPIRes {
 }
 
 export interface DailyUnitsAPIRes {
-    temperature_2m_max: number
-    temperature_2m_min: number
+    temperature_2m_max: string
+    temperature_2m_min: string
 }
 export interface WeatherAPIRes {
     current: CurrentWeatherAPIRes
@@ -36,8 +36,12 @@ export interface WeatherAPIRes {
 }
 
 export interface DailyWeather {
-    temperature_max: number
-    temperature_min: number
+    temperature_celsius_max: number
+    temperature_celsius_min: number
+    temperature_celsius_unit: string
+    temperature_fahrenheit_max: number
+    temperature_fahrenheit_min: number
+    temperature_fahrenheit_unit: string
     time: string
     weather: string
 }
@@ -328,8 +332,12 @@ export const useWeather = async (gecoding: WeatherParams) => {
         return daily.time
             .slice(0, 5)
             .map((time: string, index: number) => ({
-                temperature_max: Math.floor(daily.temperature_2m_max[index]) + dailyUnits.temperature_2m_max,
-                temperature_min: Math.floor(daily.temperature_2m_min[index]) + dailyUnits.temperature_2m_min,
+                temperature_celsius_max: daily.temperature_2m_max[index],
+                temperature_celsius_min: daily.temperature_2m_min[index],
+                temperature_celsius_unit: dailyUnits.temperature_2m_max,
+                temperature_fahrenheit_max: celsiusToFahrenheit(daily.temperature_2m_max[index]),
+                temperature_fahrenheit_min: celsiusToFahrenheit(daily.temperature_2m_min[index]),
+                temperature_fahrenheit_unit: '°F',
                 time: useDateFormat(time, 'ddd', { locales: 'en-US' }).value,
                 weather: weatherCodes.get(daily.weather_code[index])?.get('weatherIcon') || ''
             }))
