@@ -4,6 +4,22 @@ import CurrentWeather from '~~/components/CurrentWeather.vue'
 import WeatherForecast from '~~/components/WeatherForecast.vue'
 
 const search = ref<string>('')
+
+const { 
+    data: location,
+    isPending: isLocationPending,
+    isError: isLocationError,
+    gecodingNotFoundMessage,
+} = await useLocation(search)
+const currentLocation = computed(() => location.value ? location.value?.results?.[0] : null)
+watch(currentLocation, async (newLocation) => {
+    gecoding.latitude = newLocation?.latitude || null
+    gecoding.longitude = newLocation?.longitude || null
+
+    console.log('weather', weather.value)
+    console.log('daily', weatherForeast.value)
+})
+
 const gecoding = reactive<{
     latitude: number | null
     longitude: number | null
@@ -11,26 +27,19 @@ const gecoding = reactive<{
     latitude: 0,
     longitude: 0,
 })
-
-const { data: location, isPending: isLocationPending } = await useLocation(search)
-const currentLocation = computed(() => location.value ? location.value?.results?.[0] : null)
-
 const {
     weather,
     currentWeather,
     currentWeatherUnits,
     weatherForeast,
-    isPending: isWeatherPending
+    isPending: isWeatherPending,
+    isError: isWeatherError,
 } = await useWeather(gecoding)
 
 
-watch(currentLocation, async (newLocation) => {
-    gecoding.latitude = newLocation?.latitude || null
-    gecoding.longitude = newLocation?.longitude || null
+const isPending = computed(() => isWeatherPending.value || isLocationPending.value)
+const isError = computed(() => isWeatherError.value || isLocationError.value)
 
-    console.log('weather', weather)
-    console.log('daily', weatherForeast)
-})
 </script>
 
 <template>
@@ -39,10 +48,11 @@ watch(currentLocation, async (newLocation) => {
             w-full min-h-100vh
             flex justify-center items-center
             p-10
-            bg-[url('/raining-day.jpg')] bg-cover bg-no-repeat
+            bg-[url('/weather-now-bg.jpg')] bg-cover bg-no-repeat
         "
     >
-        <div class="
+        <div
+            class="
                 w-full max-w-600px h-[calc(100vh-80px)]
                 flex flex-col justify-between items-center
             "
@@ -50,11 +60,43 @@ watch(currentLocation, async (newLocation) => {
             <SearchInput v-model="search" />
 
             <Transition mode="out-in">
-                <div v-if="isLocationPending || isWeatherPending" class="flex justify-center items-center h-full color-white text-20">
+                <div
+                    v-if="isPending"
+                    class="flex justify-center items-center h-full color-white text-20"
+                >
                     <Icon class="color-white" name="svg-spinners:eclipse-half" size="100" />
                 </div>
 
-                <div v-else-if="currentWeather && currentWeatherUnits && !isLocationPending && !isWeatherPending" class="w-full h-full flex flex-col justify-around">
+                
+                <div
+                    v-else-if="gecodingNotFoundMessage"
+                    class="
+                        h-full 
+                        flex justify-center items-center
+                        text-8 text-center font-sans
+                        color-white leading-8
+                    "
+                >
+                    {{  gecodingNotFoundMessage }}
+                </div>
+
+                <div
+                    v-else-if="isError"
+                    class="
+                        h-full 
+                        flex flex-col justify-center items-start
+                        text-6 text-left font-sans
+                        color-white leading-6
+                    "
+                >
+                    <p>Oop! Seem like have network error, make sure you have network connect and try again.</p>
+                    <p class="mt-2 text-4">If still can't resolve please concat us, jimyeh.12@gmail.com</p>
+                </div>
+
+                <div
+                    v-else-if="currentWeather && currentWeatherUnits && !isPending"
+                    class="w-full h-full flex flex-col justify-around"
+                >
                     <div class="w-full">
                         <CurrentWeather
                             :weather="currentWeather"

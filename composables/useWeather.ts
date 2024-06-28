@@ -242,8 +242,10 @@ export const weatherCodes = new Map([
 ])
 
 export const useWeather = async (gecoding: WeatherParams) => {
-    let weather = ref<WeatherAPIRes | null>(null)
-    let isPending = ref<boolean>(false)
+    const weather = ref<WeatherAPIRes | null>(null)
+    const isPending = ref<boolean>(false)
+    const isError = ref(false)
+
 
     watch(gecoding, async () => {
         if (!gecoding.latitude || !gecoding.longitude) {
@@ -261,7 +263,25 @@ export const useWeather = async (gecoding: WeatherParams) => {
 
         isPending.value = true
 
-        const res = await $fetch<WeatherAPIRes>(url, { method: 'GET', params })
+        const res = await $fetch<WeatherAPIRes>(url, {
+            method: 'GET', 
+            
+            params,
+
+            onRequestError({ error }) {
+                if (error) {
+                    isError.value = true
+                    isPending.value = false
+                }
+            },
+
+            onResponseError({ error, response }) {
+                if (response._data.error || error) {
+                    isError.value = true
+                    isPending.value = false
+                }
+            }
+        })
 
         weather.value = res
         isPending.value = false
@@ -303,5 +323,6 @@ export const useWeather = async (gecoding: WeatherParams) => {
         currentWeatherUnits,
         weatherForeast,
         isPending,
+        isError,
     }
 }

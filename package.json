@@ -20,6 +20,9 @@
     "vue-router": "^4.3.3"
   },
   "devDependencies": {
+    "@iconify-json/ic": "^1.1.17",
+    "@iconify-json/mdi": "^1.1.67",
+    "@iconify-json/svg-spinners": "^1.1.2",
     "@iconify-json/wi": "^1.1.8",
     "@unocss/nuxt": "^0.61.0",
     "@unocss/preset-web-fonts": "^0.61.0",
