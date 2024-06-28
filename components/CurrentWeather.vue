@@ -7,9 +7,29 @@ const props = defineProps({
         required: true,
         type: Object as PropType<CurrentWeather>
     },
+
     location: {
         required: true,
         type: Object as PropType<Gecoding | null> | null
+    },
+
+    temperatureUnit: {
+        required: true,
+        type: String,
+    }
+})
+
+const temperature = computed(() => {
+    if (props.temperatureUnit === 'celsius') {
+        return {
+            value: props.weather.temperature_celsius,
+            unit: props.weather.temperature_celsius_unit,
+        }
+    }
+
+    return {
+        value: props.weather.temperature_fahrenheit,
+        unit: props.weather.temperature_fahrenheit_unit,
     }
 })
 </script>
@@ -18,10 +38,12 @@ const props = defineProps({
     <div class="w-full flex justify-between items-start">
         <div>
             <div class="flex items-end">
-                <div class="flex items-start color-white font-sans mr-10">
-                    <span class="text-20">{{ props.weather.temperature_celsius }}</span>
-                    <span class="text-10">{{ props.weather.temperature_celsius_unit }}</span>
-                </div>
+                <Transition mode="out-in">
+                    <div :key="props.temperatureUnit" class="flex items-start color-white font-sans mr-10">
+                        <span class="text-20">{{ temperature.value }}</span>
+                        <span class="text-10">{{ temperature.unit }}</span>
+                    </div>
+                </Transition>
             </div>
     
             <div class="my-4">
@@ -51,3 +73,15 @@ const props = defineProps({
         </div>
     </div>
 </template>
+
+<style lang="scss" scope>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.3s bounce;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>

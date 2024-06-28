@@ -4,6 +4,7 @@ import CurrentWeather from '~~/components/CurrentWeather.vue'
 import WeatherForecast from '~~/components/WeatherForecast.vue'
 
 const search = ref<string>('')
+const temperatureUnit = ref<string>('celsius')
 
 const { 
     data: location,
@@ -50,10 +51,22 @@ const isError = computed(() => isWeatherError.value || isLocationError.value)
             bg-[url('/weather-now-bg.jpg')] bg-cover bg-no-repeat
         "
     >
+        <div class="
+            flex-1 h-[calc(100vh-80px)] backdrop-blur-lg rounded-5 color-white
+            p-4
+        ">
+            <input type="radio" id="celsius" value="celsius" v-model="temperatureUnit" />
+            <label for="celsius">Celsius</label>
+
+            <input type="radio" id="fahrenheit" value="fahrenheit" v-model="temperatureUnit" />
+            <label for="fahrenheit">Fahrenheit</label>
+        </div>   
+
         <div
             class="
                 w-full max-w-600px h-[calc(100vh-80px)]
                 flex flex-col justify-between items-center
+                mx-8
             "
         >
             <SearchInput v-model="search" />
@@ -97,14 +110,20 @@ const isError = computed(() => isWeatherError.value || isLocationError.value)
                     class="w-full h-full flex flex-col justify-around"
                 >
                     <CurrentWeather
+                        :temperatureUnit="temperatureUnit"
                         :weather="currentWeather"
                         :location="currentLocation"
                     />
 
-                    <WeatherForecast :weathers="weatherForeast" />
+                    <WeatherForecast
+                        :temperatureUnit="temperatureUnit"
+                        :weathers="weatherForeast"
+                    />
                 </div>
             </Transition>
         </div>
+
+        <div class="flex-1"></div>   
     </div>
 </template>
 
