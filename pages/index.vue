@@ -96,16 +96,12 @@ const isError = computed(() => isWeatherError.value || isLocationError.value)
                     v-else-if="currentWeather && !isPending"
                     class="w-full h-full flex flex-col justify-around"
                 >
-                    <div class="w-full">
-                        <CurrentWeather
-                            :weather="currentWeather"
-                            :location="currentLocation"
-                        />
-                    </div>
-    
-                    <div class="w-full">
-                        <WeatherForecast :weathers="weatherForeast" />
-                    </div>
+                    <CurrentWeather
+                        :weather="currentWeather"
+                        :location="currentLocation"
+                    />
+
+                    <WeatherForecast :weathers="weatherForeast" />
                 </div>
             </Transition>
         </div>
