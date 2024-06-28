@@ -46,20 +46,46 @@ const isError = computed(() => isWeatherError.value || isLocationError.value)
     <div class="
             relative
             w-full min-h-100vh
-            flex justify-center items-center
+            flex justify-center items-start
             p-10
             bg-[url('/weather-now-bg.jpg')] bg-cover bg-no-repeat
         "
     >
         <div class="
-            flex-1 h-[calc(100vh-80px)] backdrop-blur-lg rounded-5 color-white
+            flex-1 backdrop-blur-lg rounded-5 color-white
             p-4
         ">
-            <input type="radio" id="celsius" value="celsius" v-model="temperatureUnit" />
-            <label for="celsius">Celsius</label>
+            <div>
+                <p class="text-5 font-bold font-sans">Temperature Unit</p>
 
-            <input type="radio" id="fahrenheit" value="fahrenheit" v-model="temperatureUnit" />
-            <label for="fahrenheit">Fahrenheit</label>
+                <div class="w-full h-1px my-4 bg-white"></div>
+            </div>
+
+            <div class="flex justify-start items-center">
+                <label class="flex-1 flex items-center cursor-pointer" for="celsius">
+                    <input
+                        type="radio"
+                        id="celsius"
+                        value="celsius"
+                        class="radio-input cursor-pointer" 
+                        :checked="temperatureUnit === 'celsius'"
+                        v-model="temperatureUnit"
+                    />
+                    Celsius
+                </label>
+
+                <label class="flex-1 flex items-center cursor-pointer" for="fahrenheit">
+                    <input
+                        type="radio"
+                        id="fahrenheit"
+                        value="fahrenheit"
+                        class="radio-input cursor-pointer" 
+                        :checked="temperatureUnit === 'fahrenheit'"
+                        v-model="temperatureUnit"
+                    />
+                    Fahrenheit
+                </label>
+            </div>
         </div>   
 
         <div
