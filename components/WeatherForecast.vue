@@ -31,7 +31,7 @@ function getTemperatureByUnit(weather: DailyWeather) {
 </script>
 
 <template>
-    <div class="p-6 color-white backdrop-blur rounded-5">
+    <div class="p-6 color-white backdrop-blur-lg rounded-5">
         <p class="text-3">5-Day Forecast</p>
 
         <div class="w-full h-1px my-4 bg-white"></div>

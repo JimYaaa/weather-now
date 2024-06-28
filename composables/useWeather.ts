@@ -1,8 +1,3 @@
-export type WeatherParams = {
-    latitude: number | null
-    longitude: number | null
-}
-
 export interface CurrentWeatherAPIRes {
     relative_humidity_2m: number
     temperature_2m: number
@@ -55,6 +50,12 @@ export interface CurrentWeather {
     relative_humidity: string
     wind_speed: number
     wind_speed_unit: string
+}
+
+export interface WeatherInfo {
+    location: Gecoding
+    currentWeather: CurrentWeather | null
+    weatherForecast: DailyWeather[]
 }
 
 export const weatherCodes = new Map([
@@ -257,22 +258,23 @@ export const weatherCodes = new Map([
 ])
 
 import celsiusToFahrenheit from '~~/utils/celsiusToFahrenheit'
+import type { Gecoding } from '~~/composables/useLocation'
 
-export const useWeather = async (gecoding: WeatherParams) => {
+export const useWeather = async (gecoding: Ref<Gecoding>) => {
     const weather = ref<WeatherAPIRes | null>(null)
     const isPending = ref<boolean>(false)
     const isError = ref(false)
 
 
     watch(gecoding, async () => {
-        if (!gecoding.latitude || !gecoding.longitude) {
+        if (!gecoding.value.latitude || !gecoding.value.longitude) {
             weather.value = null
             return
         }
 
         const params = {
-            "latitude": gecoding.latitude,
-            "longitude": gecoding.longitude,
+            "latitude": gecoding.value.latitude,
+            "longitude": gecoding.value.longitude,
             "current": ["temperature_2m", "relative_humidity_2m", "weather_code", "wind_speed_10m"],
             "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min"],
         }
@@ -323,7 +325,7 @@ export const useWeather = async (gecoding: WeatherParams) => {
         }
     }) 
 
-    const weatherForeast = computed<DailyWeather[]>(() => {
+    const weatherForecast = computed<DailyWeather[]>(() => {
         if (!weather.value) return []
 
         const daily = weather.value.daily
@@ -343,10 +345,16 @@ export const useWeather = async (gecoding: WeatherParams) => {
             }))
     })
 
+    const data = computed<WeatherInfo>(() => {
+        return {
+            location: gecoding.value,
+            currentWeather: currentWeather.value,
+            weatherForecast: weatherForecast.value,
+        }
+    })
+
     return {
-        weather,
-        currentWeather,
-        weatherForeast,
+        data,
         isPending,
         isError,
     }

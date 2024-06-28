@@ -1,35 +1,29 @@
 export interface Gecoding {
     id: number
     name: string
-    latitude: number
-    longitude: number
-    elevation: number
-    timezone: string
-    feature_code: string
-    country_code: string
+    latitude: number | null
+    longitude: number | null
     country: string
-    country_id: number
-    population: number
-    postcodes: string[]
-    admin1: string
-    admin2: string
-    admin3: string
-    admin4: string
-    admin1_id: number
-    admin2_id: number
-    admin3_id: number
-    admin4_id: number
 }
 
 export const useLocation = async (name: Ref<string>) => {
-    const data = ref<{ generationtime_ms: Number, results: Gecoding[] } | null>(null)
+    const data = ref<{ generationtime_ms: Number, results: Gecoding[] }>({
+        generationtime_ms: 0,
+        results: []
+    })
     const isError = ref(false)
     const isPending = ref(false)
     const gecodingNotFoundMessage = ref('')
 
-    watch(name, useDebounceFn(async (newName, oldName) => {
+    watch(name, useDebounceFn(async (newName) => {
+        gecodingNotFoundMessage.value = ''
+        isError.value = false
+
         if (!newName) {
-            data.value = null
+            data.value = {
+                generationtime_ms: 0,
+                results: [],
+            }
             return
         }
 
@@ -39,8 +33,6 @@ export const useLocation = async (name: Ref<string>) => {
             count: 1,
         }
 
-        isError.value = false
-        gecodingNotFoundMessage.value = ''
         isPending.value = true
 
         const response = await $fetch<{ generationtime_ms: Number, results: Gecoding[]}>(url, {
@@ -63,7 +55,10 @@ export const useLocation = async (name: Ref<string>) => {
             }
         })
 
-        data.value = response
+        data.value = {
+            generationtime_ms: response.generationtime_ms,
+            results: response.results || [],
+        }
         isPending.value = false
 
         if (!response.results) gecodingNotFoundMessage.value = `Sorry We Can't Find The City "${newName}", Please Try Again.`

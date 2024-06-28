@@ -2,9 +2,13 @@
 import SearchInput from '~~/components/SearchInput.vue'
 import CurrentWeather from '~~/components/CurrentWeather.vue'
 import WeatherForecast from '~~/components/WeatherForecast.vue'
+import WeatherList from '~~/components/WeatherList.vue'
+import type { Gecoding } from '~~/composables/useLocation'
 
 const search = ref<string>('')
 const temperatureUnit = ref<string>('celsius')
+const weatherStore = ref<any>([])
+const selectedWeatherIndex = ref<number | null>(null)
 
 const { 
     data: location,
@@ -12,34 +16,59 @@ const {
     isError: isLocationError,
     gecodingNotFoundMessage,
 } = await useLocation(search)
-const currentLocation = computed(() => location.value ? location.value?.results?.[0] : null)
-watch(currentLocation, async (newLocation) => {
-    gecoding.latitude = newLocation?.latitude || null
-    gecoding.longitude = newLocation?.longitude || null
 
-    console.log('weather', weather.value)
-    console.log('daily', weatherForeast.value)
+const currentLocation = computed(() => location.value.results[0] || { 
+    id: 0,
+    name: '',
+    latitude: null,
+    longitude: null,
+    country: '',
+ })
+
+watch(weatherStore, (weatherStore) => {
+    // when user first loaded page get first weather in weatherStore if weatherStore is not empty
+    if (!search.value && weatherStore.length) {
+        gecoding.value = weatherStore[0].location
+        selectedWeatherIndex.value = 0
+    }
 })
 
-const gecoding = reactive<{
-    latitude: number | null
-    longitude: number | null
-}>({
-    latitude: 0,
-    longitude: 0,
+watch(currentLocation, (newLocation) => {
+    // when user clean input value get first weather in weatherStore if weatherStore is not empty
+    if (!newLocation.id && weatherStore.value.length) {
+        gecoding.value = weatherStore.value[0].location
+        selectedWeatherIndex.value = 0
+        return
+    }
+
+    // when user search the location is already in weatherStore change selectedWeatherIndex to highlight list item.
+    const weatherStoreIndex = weatherStore.value.findIndex((weather: any) => weather.id === newLocation.id)
+    if (weatherStoreIndex !== -1) selectedWeatherIndex.value = weatherStoreIndex
+
+    gecoding.value = newLocation
+})
+
+watch(gecodingNotFoundMessage, (notFound) => {
+    if (!notFound) return
+
+    selectedWeatherIndex.value = null
+})
+
+const gecoding = ref<Gecoding>({
+    id: 0,
+    name: '',
+    latitude: null,
+    longitude: null,
+    country: '',
 })
 const {
-    weather,
-    currentWeather,
-    weatherForeast,
+    data: weather,
     isPending: isWeatherPending,
     isError: isWeatherError,
 } = await useWeather(gecoding)
 
-
 const isPending = computed(() => isWeatherPending.value || isLocationPending.value)
 const isError = computed(() => isWeatherError.value || isLocationError.value)
-
 </script>
 
 <template>
@@ -86,6 +115,13 @@ const isError = computed(() => isWeatherError.value || isLocationError.value)
                     Fahrenheit
                 </label>
             </div>
+
+            <WeatherList
+                v-model:gecoding="gecoding"
+                v-model:weatherStore="weatherStore"
+                v-model:selectedWeatherIndex="selectedWeatherIndex"
+                :weatherInfo="weather"
+            />
         </div>   
 
         <div
@@ -132,18 +168,18 @@ const isError = computed(() => isWeatherError.value || isLocationError.value)
                 </div>
 
                 <div
-                    v-else-if="currentWeather && !isPending"
+                    v-else-if="weather.currentWeather && !isPending"
                     class="w-full h-full flex flex-col justify-around"
                 >
                     <CurrentWeather
                         :temperatureUnit="temperatureUnit"
-                        :weather="currentWeather"
-                        :location="currentLocation"
+                        :weather="weather.currentWeather"
+                        :location="weather.location"
                     />
-
+                    
                     <WeatherForecast
                         :temperatureUnit="temperatureUnit"
-                        :weathers="weatherForeast"
+                        :weathers="weather.weatherForecast"
                     />
                 </div>
             </Transition>
