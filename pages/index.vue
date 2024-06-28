@@ -17,14 +17,6 @@ const {
     gecodingNotFoundMessage,
 } = await useLocation(search)
 
-const currentLocation = computed(() => location.value.results[0] || { 
-    id: 0,
-    name: '',
-    latitude: null,
-    longitude: null,
-    country: '',
- })
-
 watch(weatherStore, (weatherStore) => {
     // when user first loaded page get first weather in weatherStore if weatherStore is not empty
     if (!search.value && weatherStore.length) {
@@ -33,19 +25,19 @@ watch(weatherStore, (weatherStore) => {
     }
 })
 
-watch(currentLocation, (newLocation) => {
+watch(location, (newLocation) => {
     // when user clean input value get first weather in weatherStore if weatherStore is not empty
-    if (!newLocation.id && weatherStore.value.length) {
+    if (!newLocation.results.id && weatherStore.value.length) {
         gecoding.value = weatherStore.value[0].location
         selectedWeatherIndex.value = 0
         return
     }
 
     // when user search the location is already in weatherStore change selectedWeatherIndex to highlight list item.
-    const weatherStoreIndex = weatherStore.value.findIndex((weather: any) => weather.id === newLocation.id)
+    const weatherStoreIndex = weatherStore.value.findIndex((weather: any) => weather.id === newLocation.results.id)
     if (weatherStoreIndex !== -1) selectedWeatherIndex.value = weatherStoreIndex
 
-    gecoding.value = newLocation
+    gecoding.value = newLocation.results
 })
 
 watch(gecodingNotFoundMessage, (notFound) => {

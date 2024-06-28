@@ -7,9 +7,15 @@ export interface Gecoding {
 }
 
 export const useLocation = async (name: Ref<string>) => {
-    const data = ref<{ generationtime_ms: Number, results: Gecoding[] }>({
+    const data = ref<{ generationtime_ms: Number, results: Gecoding }>({
         generationtime_ms: 0,
-        results: []
+        results: {
+            id: 0,
+            name: '',
+            latitude: null,
+            longitude: null,
+            country: '',
+        }
     })
     const isError = ref(false)
     const isPending = ref(false)
@@ -22,7 +28,13 @@ export const useLocation = async (name: Ref<string>) => {
         if (!newName) {
             data.value = {
                 generationtime_ms: 0,
-                results: [],
+                results: {
+                    id: 0,
+                    name: '',
+                    latitude: null,
+                    longitude: null,
+                    country: '',
+                },
             }
             return
         }
@@ -57,7 +69,13 @@ export const useLocation = async (name: Ref<string>) => {
 
         data.value = {
             generationtime_ms: response.generationtime_ms,
-            results: response.results || [],
+            results: response.results ? response.results[0] : {
+                id: 0,
+                name: '',
+                latitude: null,
+                longitude: null,
+                country: '',
+            },
         }
         isPending.value = false
 
