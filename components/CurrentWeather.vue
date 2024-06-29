@@ -47,7 +47,7 @@ const temperature = computed(() => {
             </div>
     
             <div class="my-4">
-                <p class="font-sans text-6 color-white">
+                <p class="font-sans text-6 md-text-5 color-white">
                     {{ location?.name }} 
                     {{ location?.name !== location?.country ? `/ ${location?.country}` : '' }}
                 </p>

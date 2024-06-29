@@ -36,7 +36,7 @@ function getTemperatureByUnit(weather: DailyWeather) {
 
         <div class="w-full h-1px my-4 bg-white"></div>
 
-        <ul class="min-w-400px flex flex-col justify-between items-center">
+        <ul class="lg-min-w-400px flex flex-col justify-between items-center">
             <li 
                 v-for="weather, index in props.weathers"
                 :key="weather.time"
@@ -48,7 +48,7 @@ function getTemperatureByUnit(weather: DailyWeather) {
 
                 <div class="flex items-center justify-between flex-1">
                     <Transition mode="out-in">
-                        <div :key="props.temperatureUnit" class="flex items-start color-white font-sans">
+                        <div :key="props.temperatureUnit" class="flex items-start min-w-45px color-white font-sans">
                             <p class="text-4 font-sans font-bold">{{ getTemperatureByUnit(weather).min }}</p>
                             <p class="text-3 font-sans font-bold">{{ getTemperatureByUnit(weather).unit }}</p>
                         </div>
@@ -57,7 +57,7 @@ function getTemperatureByUnit(weather: DailyWeather) {
                     <div class="flex-1 h-2px mx-4 bg-white rounded"></div>
 
                     <Transition mode="out-in">
-                        <div :key="props.temperatureUnit" class="flex items-start color-white font-sans">
+                        <div :key="props.temperatureUnit" class="flex items-start min-w-45px color-white font-sans">
                             <p class="text-4 font-sans font-bold">{{ getTemperatureByUnit(weather).max }}</p>
                             <p class="text-3 font-sans font-bold">{{ getTemperatureByUnit(weather).unit }}</p>
                         </div>

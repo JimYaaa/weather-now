@@ -65,7 +65,7 @@ function addWeather(weatherInfo: WeatherInfo) {
         <div class="w-full h-1px my-4 bg-white"></div>
 
         <ClientOnly fallback-tag="ul">
-            <ul>
+            <ul class="max-h-400px">
                 <li
                     v-for="weather, index in weatherStore"
                     :key="weather.id"
@@ -82,7 +82,7 @@ function addWeather(weatherInfo: WeatherInfo) {
                 >
                     <div class="flex flex-col items-stretch justify-between">
                         <div>
-                            <p class="font-bold">{{ weather.name }} {{ weather.name !== weather.country ? `/ ${weather.country}` : '' }}</p>
+                            <p class="sm-text-3 font-bold">{{ weather.name }} {{ weather.name !== weather.country ? `/ ${weather.country}` : '' }}</p>
                         </div>
                     </div>
                 </li>

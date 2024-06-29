@@ -62,6 +62,8 @@ const {
 
 const isPending = computed(() => isWeatherPending.value || isLocationPending.value)
 const isError = computed(() => isWeatherError.value || isLocationError.value)
+
+const isWidgetOpen = ref(false)
 </script>
 
 <template>
@@ -69,14 +71,23 @@ const isError = computed(() => isWeatherError.value || isLocationError.value)
             relative
             w-full min-h-100vh
             flex justify-center items-start
-            p-10
+            py-10 px-5 md-p-10
             bg-[url('/weather-now-bg.jpg')] bg-cover bg-no-repeat
         "
     >
-        <div class="
-            flex-1 backdrop-blur-lg rounded-5 color-white
-            p-4
-        ">
+        <!-- Widget Part -->
+        <div
+            :class="{ 'block': isWidgetOpen, 'hidden': !isWidgetOpen }"
+            class="
+                absolute top-0 left-0
+                w-full h-100vh
+                z-10
+                md-block md-relative md-w-auto md-h-auto
+                flex-1 lg-min-w-400px md-min-w-300px backdrop-blur-lg rounded-5 color-white
+                py-10 px-4 md-p-4
+                transition-all transition-500
+            "
+        >
             <div>
                 <p class="text-5 font-bold font-sans">Temperature Unit</p>
 
@@ -115,23 +126,51 @@ const isError = computed(() => isWeatherError.value || isLocationError.value)
                 v-model:selectedWeatherIndex="selectedWeatherIndex"
                 :weatherInfo="weather"
             />
+
+            <div 
+                class="
+                    absolute bottom-10 left-50% translate-x-[-50%]
+                    flex justify-center items-center
+                    p-2
+                    border-1px border-white border-solid rounded-50%
+                    md-hidden cursor-pointer
+                "
+            >
+                <Icon
+                    class="color-white"
+                    name="ic:baseline-clear"
+                    size="35"
+                    @click="() => isWidgetOpen = false"
+                />
+            </div>
         </div>   
 
+        <!-- Main Weather Part -->
         <div
             class="
-                w-full max-w-600px h-[calc(100vh-80px)]
+                w-full sm-max-w-100% lg-max-w-600px h-[calc(100vh-80px)]
                 flex flex-col justify-between items-center
-                mx-8
+                sm-mx-0 md-mx-8
             "
         >
-            <SearchInput v-model="search" />
+            <!-- Search Component -->
+            <div class="w-full flex items-center">
+                <Icon
+                    class="md-hidden color-white mr-2 cursor-pointer"
+                    name="ic:sharp-density-medium"
+                    size="35"
+                    @click="() => isWidgetOpen = true"
+                />
+
+                <SearchInput v-model="search" />
+            </div>
 
             <Transition mode="out-in">
                 <div
                     v-if="isPending"
                     class="flex justify-center items-center h-full color-white text-20"
                 >
-                    <Icon class="color-white" name="svg-spinners:eclipse-half" size="100" />
+                    <Icon class="color-white" name="svg-spinners:eclipse-half" size="100" />    
                 </div>
 
                 
@@ -164,12 +203,14 @@ const isError = computed(() => isWeatherError.value || isLocationError.value)
                     v-else-if="weather.currentWeather && !isPending"
                     class="w-full h-full flex flex-col justify-around"
                 >
+                    <!-- Current Weather -->
                     <CurrentWeather
                         :temperatureUnit="temperatureUnit"
                         :weather="weather.currentWeather"
                         :location="weather.location"
                     />
                     
+                    <!-- Weather Forecast -->
                     <WeatherForecast
                         :temperatureUnit="temperatureUnit"
                         :weathers="weather.weatherForecast"
@@ -178,7 +219,7 @@ const isError = computed(() => isWeatherError.value || isLocationError.value)
             </Transition>
         </div>
 
-        <div class="flex-1"></div>   
+        <div class="md-hidden lg-block flex-1"></div>   
     </div>
 </template>
 
