@@ -1,0 +1,37 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`WeatherList > when location name and country is different show both of them 1`] = `
+"<div class="mt-8">
+  <div class="flex justify-between items-center">
+    <p class="test text-5 font-bold font-sans">Weather</p><button class="text-5">+</button>
+  </div>
+  <div class="w-full h-1px my-4 bg-white"></div>
+  <ul class="max-h-400px">
+    <li class="flex justify-between items-stretch p-4 mb-4 last:mb-0 border-solid border-1px border-white rounded-15px cursor-pointer hover:border-yellow transition-all transition-500">
+      <div class="flex flex-col items-stretch justify-between">
+        <div>
+          <p data-test-id="weather-list-title" class="sm-text-3 font-bold">Osaka / Japan</p>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>"
+`;
+
+exports[`WeatherList > when location name equal location country only show one of them 1`] = `
+"<div class="mt-8">
+  <div class="flex justify-between items-center">
+    <p class="test text-5 font-bold font-sans">Weather</p><button class="text-5">+</button>
+  </div>
+  <div class="w-full h-1px my-4 bg-white"></div>
+  <ul class="max-h-400px">
+    <li class="flex justify-between items-stretch p-4 mb-4 last:mb-0 border-solid border-1px border-white rounded-15px cursor-pointer hover:border-yellow transition-all transition-500">
+      <div class="flex flex-col items-stretch justify-between">
+        <div>
+          <p data-test-id="weather-list-title" class="sm-text-3 font-bold">Taiwan </p>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>"
+`;

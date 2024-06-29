@@ -51,13 +51,14 @@ function addWeather(weatherInfo: WeatherInfo) {
 
     selectedWeatherIndex.value = weatherStore.value.length - 1
     useLocalStorage('weatherStore', weatherStore.value)
+
 }
 </script>
 
 <template>
     <div class="mt-8">
         <div class="flex justify-between items-center">
-            <p class="text-5 font-bold font-sans">Weather</p>
+            <p class="test text-5 font-bold font-sans">Weather</p>
 
             <button class="text-5" @click="addWeather(props.weatherInfo)">+</button>
         </div>
@@ -81,7 +82,7 @@ function addWeather(weatherInfo: WeatherInfo) {
             >
                 <div class="flex flex-col items-stretch justify-between">
                     <div>
-                        <p class="sm-text-3 font-bold">{{ weather.name }} {{ weather.name !== weather.country ? `/ ${weather.country}` : '' }}</p>
+                        <p data-test-id='weather-list-title' class="sm-text-3 font-bold">{{ weather.name }} {{ weather.name !== weather.country ? `/ ${weather.country}` : '' }}</p>
                     </div>
                 </div>
             </li>

@@ -2,7 +2,7 @@
 import SearchInput from '~~/components/SearchInput.vue'
 import CurrentWeather from '~~/components/CurrentWeather/Index.vue'
 import WeatherForecast from '~~/components/WeatherForecast/Index.vue'
-import WeatherList from '~~/components/WeatherList.vue'
+import WeatherList from '~~/components/WeatherList/Index.vue'
 import type { Gecoding } from '~~/entities/gecoding'
 import type { WeatherStore } from '~~/entities/weather'
 import { Transition } from 'vue'
