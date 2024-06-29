@@ -1,12 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`WeatherList > when location name and country is different show both of them 1`] = `
-"<div class="mt-8">
-  <div class="flex justify-between items-center">
+"<div class="flex items-center flex-col flex-1 mt-8">
+  <div class="w-full flex justify-between items-center">
     <p class="test text-5 font-bold font-sans">Weather</p><button class="text-5">+</button>
   </div>
   <div class="w-full h-1px my-4 bg-white"></div>
-  <ul class="max-h-400px">
+  <ul class="w-full flex-1 md-max-h-400px overflow-auto">
     <li class="flex justify-between items-stretch p-4 mb-4 last:mb-0 border-solid border-1px border-white rounded-15px cursor-pointer hover:border-yellow transition-all transition-500">
       <div class="flex flex-col items-stretch justify-between">
         <div>
@@ -15,16 +15,17 @@ exports[`WeatherList > when location name and country is different show both of 
       </div>
     </li>
   </ul>
+  <div class="flex justify-center items-center p-2 mt-4 border-1px border-white border-solid rounded-50% md-hidden cursor-pointer"><span class="iconify i-ic:baseline-clear color-white" aria-hidden="true" style="font-size: 35px;"></span></div>
 </div>"
 `;
 
 exports[`WeatherList > when location name equal location country only show one of them 1`] = `
-"<div class="mt-8">
-  <div class="flex justify-between items-center">
+"<div class="flex items-center flex-col flex-1 mt-8">
+  <div class="w-full flex justify-between items-center">
     <p class="test text-5 font-bold font-sans">Weather</p><button class="text-5">+</button>
   </div>
   <div class="w-full h-1px my-4 bg-white"></div>
-  <ul class="max-h-400px">
+  <ul class="w-full flex-1 md-max-h-400px overflow-auto">
     <li class="flex justify-between items-stretch p-4 mb-4 last:mb-0 border-solid border-1px border-white rounded-15px cursor-pointer hover:border-yellow transition-all transition-500">
       <div class="flex flex-col items-stretch justify-between">
         <div>
@@ -33,5 +34,6 @@ exports[`WeatherList > when location name equal location country only show one o
       </div>
     </li>
   </ul>
+  <div class="flex justify-center items-center p-2 mt-4 border-1px border-white border-solid rounded-50% md-hidden cursor-pointer"><span class="iconify i-ic:baseline-clear color-white" aria-hidden="true" style="font-size: 35px;"></span></div>
 </div>"
 `;

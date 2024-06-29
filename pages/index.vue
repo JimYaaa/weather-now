@@ -91,14 +91,15 @@ computed
                  <div
                      v-show="isLargeScreen || isWidgetOpen"
                      class="
-                         absolute top-0 left-0
-                         w-full h-100dvh
-                         z-10
-                         md-block md-relative md-w-auto md-h-auto
-                         flex-1 lg-min-w-400px md-min-w-300px backdrop-blur-lg rounded-5 color-white
-                         py-10 px-4 md-p-4
-                     "
-                 >
+                        flex flex-col
+                        absolute top-0 left-0
+                        w-full h-100dvh
+                        z-10
+                        md-flex md-relative md-w-auto md-h-auto
+                        md-block flex-1 lg-min-w-400px md-min-w-300px backdrop-blur-lg rounded-5 color-white
+                        py-10 px-4 md-p-4
+                    "
+                >
                      <div>
                          <p class="text-5 font-bold font-sans">Temperature Unit</p>
      
@@ -106,7 +107,7 @@ computed
                      </div>
      
                      <div class="flex justify-start items-center">
-                         <label class="flex-1 flex items-center cursor-pointer" for="celsius">
+                         <label class="flex-1 flex items-center cursor-pointer font-sans" for="celsius">
                              <input
                                  type="radio"
                                  id="celsius"
@@ -118,7 +119,7 @@ computed
                              Celsius
                          </label>
      
-                         <label class="flex-1 flex items-center cursor-pointer" for="fahrenheit">
+                         <label class="flex-1 flex items-center cursor-pointer font-sans" for="fahrenheit">
                              <input
                                  type="radio"
                                  id="fahrenheit"
@@ -135,32 +136,16 @@ computed
                          v-model:gecoding="gecoding"
                          v-model:weatherStore="weatherStore"
                          v-model:selectedWeatherIndex="selectedWeatherIndex"
+                         v-model:isWidgetOpen="isWidgetOpen"
                          :weatherInfo="weather"
                      />
-     
-                     <div 
-                         class="
-                             absolute bottom-10 left-50% translate-x-[-50%]
-                             flex justify-center items-center
-                             p-2
-                             border-1px border-white border-solid rounded-50%
-                             md-hidden cursor-pointer
-                         "
-                     >
-                         <Icon
-                             class="color-white"
-                             name="ic:baseline-clear"
-                             size="35"
-                             @click="() => isWidgetOpen = false"
-                         />
-                     </div>
                  </div>
              </Transition>
              <template #fallback>
                 <div
                      class="
                         hidden md-flex
-                         flex-1 justify-center items-center
+                        flex-1 justify-center items-center
                      "
                 >
                     <Icon class="color-white" name="svg-spinners:eclipse-half" size="50" />

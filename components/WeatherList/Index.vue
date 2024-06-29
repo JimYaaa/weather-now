@@ -7,10 +7,17 @@ import { useStorage } from '@vueuse/core'
 const gecoding = defineModel('gecoding', {
     type: Object as PropType<Gecoding>,
 })
+
 const weatherStore = defineModel('weatherStore', {
     type: Array<WeatherStore>,
     default: []
 })
+
+const isWidgetOpen = defineModel('isWidgetOpen', {
+    type: Boolean,
+    default: false
+})
+
 const props = defineProps({
     weatherInfo: {
         required: true,
@@ -56,8 +63,8 @@ function addWeather(weatherInfo: WeatherInfo) {
 </script>
 
 <template>
-    <div class="mt-8">
-        <div class="flex justify-between items-center">
+    <div class="flex items-center flex-col flex-1 mt-8">
+        <div class="w-full flex justify-between items-center">
             <p class="test text-5 font-bold font-sans">Weather</p>
 
             <button class="text-5" @click="addWeather(props.weatherInfo)">+</button>
@@ -65,7 +72,7 @@ function addWeather(weatherInfo: WeatherInfo) {
 
         <div class="w-full h-1px my-4 bg-white"></div>
 
-        <ul class="max-h-230px md-max-h-450px overflow-auto">
+        <ul class="w-full flex-1 md-max-h-400px overflow-auto">
             <li
                 v-for="weather, index in weatherStore"
                 :key="weather.id"
@@ -82,10 +89,31 @@ function addWeather(weatherInfo: WeatherInfo) {
             >
                 <div class="flex flex-col items-stretch justify-between">
                     <div>
-                        <p data-test-id='weather-list-title' class="sm-text-3 font-bold">{{ weather.name }} {{ weather.name !== weather.country ? `/ ${weather.country}` : '' }}</p>
+                        <p
+                            data-test-id='weather-list-title'
+                            class="sm-text-3 font-bold"
+                        >
+                            {{ weather.name }} {{ weather.name !== weather.country ? `/ ${weather.country}` : '' }}
+                        </p>
                     </div>
                 </div>
             </li>
         </ul>
+        
+        <div 
+            class="
+                flex justify-center items-center
+                p-2 mt-4
+                border-1px border-white border-solid rounded-50%
+                md-hidden cursor-pointer
+            "
+            @click="() => isWidgetOpen = false"
+        >
+            <Icon
+                class="color-white"
+                name="ic:baseline-clear"
+                size="35"
+            />
+        </div>
     </div>
 </template>
