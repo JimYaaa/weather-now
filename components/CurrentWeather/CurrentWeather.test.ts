@@ -29,7 +29,7 @@ describe('CurrentWeather', () => {
                 weather: propsConfig.weather,
                 location: propsConfig.location,
                 temperatureUnit: 'celsius'
-            }
+            },
         })
 
         const { weather } = propsConfig

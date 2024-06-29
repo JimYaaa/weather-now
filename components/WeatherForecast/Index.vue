@@ -28,6 +28,8 @@ function getTemperatureByUnit(weather: DailyWeather) {
         unit: weather.temperature_fahrenheit_unit,
     }
 }
+
+defineExpose({ getTemperatureByUnit })
 </script>
 
 <template>

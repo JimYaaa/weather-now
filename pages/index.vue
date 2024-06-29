@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import SearchInput from '~~/components/SearchInput.vue'
 import CurrentWeather from '~~/components/CurrentWeather/Index.vue'
-import WeatherForecast from '~~/components/WeatherForecast.vue'
+import WeatherForecast from '~~/components/WeatherForecast/Index.vue'
 import WeatherList from '~~/components/WeatherList.vue'
 import type { Gecoding } from '~~/entities/gecoding'
 import type { WeatherStore } from '~~/entities/weather'
