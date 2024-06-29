@@ -224,7 +224,7 @@ computed
                 >
                     <!-- Current Weather -->
                     <CurrentWeather
-                        class="md-my-10"
+                        class="my-10"
                         :temperatureUnit="temperatureUnit"
                         :weather="weather.currentWeather"
                         :location="weather.location"
