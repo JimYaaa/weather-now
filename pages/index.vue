@@ -81,7 +81,7 @@ computed
             relative
             w-full min-h-100dvh
             flex justify-center items-start
-            py-10 px-5 md-p-10
+            p-5 md-p-10
             bg-[url('/weather-now-bg.jpg')] bg-cover bg-no-repeat
         "
     >
@@ -209,7 +209,7 @@ computed
                 >
                     <!-- Current Weather -->
                     <CurrentWeather
-                        class="my-10"
+                        class="my-5 md-my-10"
                         :temperatureUnit="temperatureUnit"
                         :weather="weather.currentWeather"
                         :location="weather.location"

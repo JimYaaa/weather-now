@@ -41,13 +41,13 @@ defineExpose({ temperature })
         <div>
             <div class="flex items-end">
                 <div :key="props.temperatureUnit" class="flex items-start color-white font-sans mr-10">
-                    <span class="text-20">{{ temperature.value }}</span>
-                    <span class="text-10">{{ temperature.unit }}</span>
+                    <span class="text-16 md-text-20">{{ temperature.value }}</span>
+                    <span class="text-8 md-text-10">{{ temperature.unit }}</span>
                 </div>
             </div>
     
-            <div class="my-4">
-                <p class="font-sans text-6 md-text-5 color-white">
+            <div class="my-6">
+                <p class="font-sans text-4 md-text-6 color-white">
                     {{ location?.name }} 
                     {{ location?.name !== location?.country ? `/ ${location?.country}` : '' }}
                 </p>
@@ -55,15 +55,15 @@ defineExpose({ temperature })
     
             <div class="flex justify-start items-center color-white">
                 <div class="flex flex-col items-center">
-                   <Icon class="color-white mb-1 text-6" name="mdi:weather-windy" />
-                   <p>{{ props.weather.wind_speed + props.weather.wind_speed_unit }}</p>
+                   <Icon class="color-white mb-1 text-4 md-text-6" name="mdi:weather-windy" />
+                   <p class="text-4 md-text-6 mt-2">{{ props.weather.wind_speed + props.weather.wind_speed_unit }}</p>
                 </div>
 
                 <div class="w-1px h-40px mx-4 bg-white"></div>
     
                 <div class="flex flex-col items-center">
-                   <Icon class="color-white mb-1 text-6" name="mdi:water" />
-                   <p>{{ props.weather.relative_humidity }}</p>
+                   <Icon class="color-white mb-1 text-4 md-text-6" name="mdi:water" />
+                   <p class="text-4 md-text-6 mt-2">{{ props.weather.relative_humidity }}</p>
                 </div>
             </div>
         </div>
