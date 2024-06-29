@@ -32,6 +32,8 @@ const temperature = computed(() => {
         unit: props.weather.temperature_fahrenheit_unit,
     }
 })
+
+defineExpose({ temperature })
 </script>
 
 <template>
