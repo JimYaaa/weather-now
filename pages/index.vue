@@ -5,6 +5,7 @@ import WeatherForecast from '~~/components/WeatherForecast.vue'
 import WeatherList from '~~/components/WeatherList.vue'
 import type { Gecoding } from '~~/entities/gecoding'
 import type { WeatherStore } from '~~/entities/weather'
+import { Transition } from 'vue'
 
 const search = ref<string>('')
 const temperatureUnit = ref<string>('celsius')
@@ -64,6 +65,13 @@ const isPending = computed(() => isWeatherPending.value || isLocationPending.val
 const isError = computed(() => isWeatherError.value || isLocationError.value)
 
 const isWidgetOpen = ref(false)
+const isLargeScreen = useMediaQuery('(min-width: 768px)')
+
+await nextTick()
+watch(isLargeScreen, async (newIsLargeScreen) => {
+    if (newIsLargeScreen && isWidgetOpen) isWidgetOpen.value = false
+})
+computed
 </script>
 
 <template>
@@ -76,74 +84,87 @@ const isWidgetOpen = ref(false)
         "
     >
         <!-- Widget Part -->
-        <div
-            :class="{ 'block': isWidgetOpen, 'hidden': !isWidgetOpen }"
-            class="
-                absolute top-0 left-0
-                w-full h-100vh
-                z-10
-                md-block md-relative md-w-auto md-h-auto
-                flex-1 lg-min-w-400px md-min-w-300px backdrop-blur-lg rounded-5 color-white
-                py-10 px-4 md-p-4
-                transition-all transition-500
-            "
-        >
-            <div>
-                <p class="text-5 font-bold font-sans">Temperature Unit</p>
-
-                <div class="w-full h-1px my-4 bg-white"></div>
-            </div>
-
-            <div class="flex justify-start items-center">
-                <label class="flex-1 flex items-center cursor-pointer" for="celsius">
-                    <input
-                        type="radio"
-                        id="celsius"
-                        value="celsius"
-                        class="radio-input cursor-pointer" 
-                        :checked="temperatureUnit === 'celsius'"
-                        v-model="temperatureUnit"
-                    />
-                    Celsius
-                </label>
-
-                <label class="flex-1 flex items-center cursor-pointer" for="fahrenheit">
-                    <input
-                        type="radio"
-                        id="fahrenheit"
-                        value="fahrenheit"
-                        class="radio-input cursor-pointer" 
-                        :checked="temperatureUnit === 'fahrenheit'"
-                        v-model="temperatureUnit"
-                    />
-                    Fahrenheit
-                </label>
-            </div>
-
-            <WeatherList
-                v-model:gecoding="gecoding"
-                v-model:weatherStore="weatherStore"
-                v-model:selectedWeatherIndex="selectedWeatherIndex"
-                :weatherInfo="weather"
-            />
-
-            <div 
-                class="
-                    absolute bottom-10 left-50% translate-x-[-50%]
-                    flex justify-center items-center
-                    p-2
-                    border-1px border-white border-solid rounded-50%
-                    md-hidden cursor-pointer
-                "
-            >
-                <Icon
-                    class="color-white"
-                    name="ic:baseline-clear"
-                    size="35"
-                    @click="() => isWidgetOpen = false"
-                />
-            </div>
-        </div>   
+         <ClientOnly>
+             <Transition mode="out-in">
+                 <div
+                     v-show="isLargeScreen || isWidgetOpen"
+                     class="
+                         absolute top-0 left-0
+                         w-full h-100vh
+                         z-10
+                         md-block md-relative md-w-auto md-h-auto
+                         flex-1 lg-min-w-400px md-min-w-300px backdrop-blur-lg rounded-5 color-white
+                         py-10 px-4 md-p-4
+                     "
+                 >
+                     <div>
+                         <p class="text-5 font-bold font-sans">Temperature Unit</p>
+     
+                         <div class="w-full h-1px my-4 bg-white"></div>
+                     </div>
+     
+                     <div class="flex justify-start items-center">
+                         <label class="flex-1 flex items-center cursor-pointer" for="celsius">
+                             <input
+                                 type="radio"
+                                 id="celsius"
+                                 value="celsius"
+                                 class="radio-input cursor-pointer" 
+                                 :checked="temperatureUnit === 'celsius'"
+                                 v-model="temperatureUnit"
+                             />
+                             Celsius
+                         </label>
+     
+                         <label class="flex-1 flex items-center cursor-pointer" for="fahrenheit">
+                             <input
+                                 type="radio"
+                                 id="fahrenheit"
+                                 value="fahrenheit"
+                                 class="radio-input cursor-pointer" 
+                                 :checked="temperatureUnit === 'fahrenheit'"
+                                 v-model="temperatureUnit"
+                             />
+                             Fahrenheit
+                         </label>
+                     </div>
+     
+                     <WeatherList
+                         v-model:gecoding="gecoding"
+                         v-model:weatherStore="weatherStore"
+                         v-model:selectedWeatherIndex="selectedWeatherIndex"
+                         :weatherInfo="weather"
+                     />
+     
+                     <div 
+                         class="
+                             absolute bottom-10 left-50% translate-x-[-50%]
+                             flex justify-center items-center
+                             p-2
+                             border-1px border-white border-solid rounded-50%
+                             md-hidden cursor-pointer
+                         "
+                     >
+                         <Icon
+                             class="color-white"
+                             name="ic:baseline-clear"
+                             size="35"
+                             @click="() => isWidgetOpen = false"
+                         />
+                     </div>
+                 </div>
+             </Transition>
+             <template #fallback>
+                <div
+                     class="
+                        hidden md-flex
+                         flex-1 justify-center items-center
+                     "
+                >
+                    <Icon class="color-white" name="svg-spinners:eclipse-half" size="50" />
+                </div>
+            </template>
+         </ClientOnly>
 
         <!-- Main Weather Part -->
         <div
