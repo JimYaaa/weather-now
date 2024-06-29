@@ -222,10 +222,11 @@ computed
 
                 <div
                     v-else-if="weather.currentWeather && !isPending"
-                    class="w-full h-full flex flex-col justify-around"
+                    class="w-full h-full flex flex-col justify-around md-justify-start"
                 >
                     <!-- Current Weather -->
                     <CurrentWeather
+                        class="md-my-10"
                         :temperatureUnit="temperatureUnit"
                         :weather="weather.currentWeather"
                         :location="weather.location"
