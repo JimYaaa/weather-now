@@ -43,9 +43,9 @@ function addWeather(weatherInfo: WeatherInfo) {
 
     if (!currentWeather) return
 
-    const isExited = weatherStore.value.find((weather: WeatherStore) => (weather.id === location.id) && location.id)
+   const isExited = weatherStore.value.find((weather: WeatherStore) => (weather.id === location.id) && location.id)
 
-    if (isExited) return
+   if (isExited) return
 
     weatherStore.value.push({
         id: location.id,
@@ -72,33 +72,35 @@ function addWeather(weatherInfo: WeatherInfo) {
 
         <div class="w-full h-1px my-4 bg-white"></div>
 
-        <ul class="w-full flex-1 md-max-h-400px overflow-auto">
-            <li
-                v-for="weather, index in weatherStore"
-                :key="weather.id"
-                :class="{ 'border-yellow': weather.id === weatherStore[selectedWeatherIndex]?.id }"
-                class="
-                    flex justify-between items-stretch
-                    p-4 mb-4 last:mb-0
-                    border-solid border-1px border-white rounded-15px
-                    cursor-pointer
-                    hover:border-yellow
-                    transition-all transition-500
-                "
-                @click="selectWeather(weather, index)"
-            >
-                <div class="flex flex-col items-stretch justify-between">
-                    <div>
-                        <p
-                            data-test-id='weather-list-title'
-                            class="sm-text-3 font-bold"
-                        >
-                            {{ weather.name }} {{ weather.name !== weather.country ? `/ ${weather.country}` : '' }}
-                        </p>
+        <div class="relative w-full flex-1">
+            <ul class="absolute top-0 left-0 md-relative w-full h-full flex-1 md-max-h-400px overflow-auto">
+                <li
+                    v-for="weather, index in weatherStore"
+                    :key="weather.id"
+                    :class="{ 'border-yellow': weather.id === weatherStore[selectedWeatherIndex]?.id }"
+                    class="
+                        flex justify-between items-stretch
+                        p-4 mb-4 last:mb-0
+                        border-solid border-1px border-white rounded-15px
+                        cursor-pointer
+                        hover:border-yellow
+                        transition-all transition-500
+                    "
+                    @click="selectWeather(weather, index)"
+                >
+                    <div class="flex flex-col items-stretch justify-between">
+                        <div>
+                            <p
+                                data-test-id='weather-list-title'
+                                class="sm-text-3 font-bold"
+                            >
+                                {{ weather.name }} {{ weather.name !== weather.country ? `/ ${weather.country}` : '' }}
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </li>
-        </ul>
+                </li>
+            </ul>
+        </div>
         
         <div 
             class="
