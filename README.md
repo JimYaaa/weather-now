@@ -1,75 +1,40 @@
-# Nuxt 3 Minimal Starter
+# WeatherNi
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+WeatherNi pronunciation in chinese is like "for you" and WeatherNi is simple web application that display the real-time weather condition for you.
+WeatherNi use the [Open-Meteo API](https://open-meteo.com/en/docs)
 
-## Setup
+WeatherNi - https://weatherni.netlify.app
 
-Make sure to install the dependencies:
+## Feature
+
+1. Search location you want.
+2. Showing 5-day weather condition.
+2. Allow save favorite cities and quickly access the weather information for those cities.
+3. Provide an option to switch between Celsius and Fahrenheit.
+4. Responsive web design.
+
+
+## Node Version
+
+v20.10.0
+
+## Run in locally
+
+Clone repoitory
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+git clone https://github.com/JimYaaa/weather-now.git
 ```
 
-## Development Server
+Install packages
+
+```bash
+cd weather-now
+pnpm install
+```
 
 Start the development server on `http://localhost:3000`:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
 pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
