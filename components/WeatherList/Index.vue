@@ -65,7 +65,7 @@ function addWeather(weatherInfo: WeatherInfo) {
 
         <div class="w-full h-1px my-4 bg-white"></div>
 
-        <ul class="max-h-400px">
+        <ul class="max-h-230px md-max-h-450px overflow-auto">
             <li
                 v-for="weather, index in weatherStore"
                 :key="weather.id"

@@ -172,7 +172,7 @@ computed
         <div
             class="
                 w-full sm-max-w-100% lg-max-w-600px h-[calc(100dvh-80px)]
-                flex flex-col justify-between items-center
+                flex flex-col justify-start items-center
                 sm-mx-0 md-mx-8
             "
         >
