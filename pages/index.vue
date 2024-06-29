@@ -19,6 +19,8 @@ const {
     gecodingNotFoundMessage,
 } = await useLocation(search)
 
+const isWeatherEmpty = computed(() => !search.value && !weatherStore.value.length)
+
 watch(weatherStore, (weatherStore) => {
     // when user first loaded page get first weather in weatherStore if weatherStore is not empty
     if (!search.value && weatherStore.length) {
@@ -77,7 +79,7 @@ computed
 <template>
     <div class="
             relative
-            w-full min-h-100vh
+            w-full min-h-100dvh
             flex justify-center items-start
             py-10 px-5 md-p-10
             bg-[url('/weather-now-bg.jpg')] bg-cover bg-no-repeat
@@ -85,12 +87,12 @@ computed
     >
         <!-- Widget Part -->
          <ClientOnly>
-             <Transition mode="out-in">
+             <Transition name="fade" mode="out-in">
                  <div
                      v-show="isLargeScreen || isWidgetOpen"
                      class="
                          absolute top-0 left-0
-                         w-full h-100vh
+                         w-full h-100dvh
                          z-10
                          md-block md-relative md-w-auto md-h-auto
                          flex-1 lg-min-w-400px md-min-w-300px backdrop-blur-lg rounded-5 color-white
@@ -169,7 +171,7 @@ computed
         <!-- Main Weather Part -->
         <div
             class="
-                w-full sm-max-w-100% lg-max-w-600px h-[calc(100vh-80px)]
+                w-full sm-max-w-100% lg-max-w-600px h-[calc(100dvh-80px)]
                 flex flex-col justify-between items-center
                 sm-mx-0 md-mx-8
             "
@@ -186,7 +188,7 @@ computed
                 <SearchInput v-model="search" />
             </div>
 
-            <Transition mode="out-in">
+            <Transition name="fade-blur" mode="out-in">
                 <div
                     v-if="isPending"
                     class="flex justify-center items-center h-full color-white text-20"
@@ -194,27 +196,23 @@ computed
                     <Icon class="color-white" name="svg-spinners:eclipse-half" size="100" />    
                 </div>
 
+                <div
+                    v-else-if="isWeatherEmpty"
+                    class="notification-block"
+                >
+                    Please enter city or country name to search weather.
+                </div>
                 
                 <div
                     v-else-if="gecodingNotFoundMessage"
-                    class="
-                        h-full 
-                        flex justify-center items-center
-                        text-8 text-center font-sans
-                        color-white leading-8
-                    "
+                    class="notification-block"
                 >
                     {{  gecodingNotFoundMessage }}
                 </div>
 
                 <div
                     v-else-if="isError"
-                    class="
-                        h-full 
-                        flex flex-col justify-center items-start
-                        text-6 text-left font-sans
-                        color-white leading-6
-                    "
+                    class="notification-block"
                 >
                     <p>Oop! Seem like have network error, make sure you have network connect and try again.</p>
                     <p class="mt-2 text-4">If still can't resolve please concat us, jimyeh.12@gmail.com</p>
@@ -234,6 +232,8 @@ computed
                     
                     <!-- Weather Forecast -->
                     <WeatherForecast
+                        class="weather-forecast"
+                        :key="weather.currentWeather ? '1' : '0'"
                         :temperatureUnit="temperatureUnit"
                         :weathers="weather.weatherForecast"
                     />
@@ -245,14 +245,68 @@ computed
     </div>
 </template>
 
-<style lang="scss" scope>
-.v-enter-active,
-.v-leave-active {
+<style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.3s ease;
 }
 
-.v-enter-from,
-.v-leave-to {
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
+}
+
+.fade-blur-enter {
+  opacity: 0;
+}
+
+.fade-blur-enter-active {
+  transition: 0.3s;
+}
+
+.fade-blur-leave {
+  opacity: 1;
+}
+
+.fade-blur-leave-active {
+  transition: 0.3s;
+  opacity: 0;
+}
+
+.fade-blur-enter .weather-forecast {
+  opacity: 0;
+}
+
+.fade-blur-enter-active .weather-forecast {
+  transition: 0.3s;
+  animation: blur-in 0.3s ease-in-out forwards;
+}
+
+.fade-blur-leave .weather-forecast {
+  opacity: 1;
+}
+
+.fade-blur-leave-active .weather-forecast {
+  transition: 0.3s;
+  animation: blur-out 0.3s ease-in-out forwards;
+  opacity: 0;
+}
+
+@keyframes blur-in {
+  from {
+    backdrop-filter: blur(0px);
+  }
+  to {
+    backdrop-filter: blur(16px);
+  }
+}
+
+@keyframes blur-out {
+  from {
+    backdrop-filter: blur(16px);
+  }
+  to {
+    backdrop-filter: blur(0px);
+  }
 }
 </style>

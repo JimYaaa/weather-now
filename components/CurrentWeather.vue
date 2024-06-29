@@ -38,12 +38,10 @@ const temperature = computed(() => {
     <div class="w-full flex justify-between items-start">
         <div>
             <div class="flex items-end">
-                <Transition mode="out-in">
-                    <div :key="props.temperatureUnit" class="flex items-start color-white font-sans mr-10">
-                        <span class="text-20">{{ temperature.value }}</span>
-                        <span class="text-10">{{ temperature.unit }}</span>
-                    </div>
-                </Transition>
+                <div :key="props.temperatureUnit" class="flex items-start color-white font-sans mr-10">
+                    <span class="text-20">{{ temperature.value }}</span>
+                    <span class="text-10">{{ temperature.unit }}</span>
+                </div>
             </div>
     
             <div class="my-4">
@@ -73,15 +71,3 @@ const temperature = computed(() => {
         </div>
     </div>
 </template>
-
-<style lang="scss" scope>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.3s bounce;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
-</style>

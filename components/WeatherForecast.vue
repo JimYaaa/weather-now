@@ -47,35 +47,19 @@ function getTemperatureByUnit(weather: DailyWeather) {
                 <Icon class="color-white mx-4" :name="weather.weather" size="35" />
 
                 <div class="flex items-center justify-between flex-1">
-                    <Transition mode="out-in">
-                        <div :key="props.temperatureUnit" class="flex items-start min-w-45px color-white font-sans">
-                            <p class="text-4 font-sans font-bold">{{ getTemperatureByUnit(weather).min }}</p>
-                            <p class="text-3 font-sans font-bold">{{ getTemperatureByUnit(weather).unit }}</p>
-                        </div>
-                    </Transition>
+                    <div class="flex items-start min-w-45px color-white font-sans">
+                        <p class="text-4 font-sans font-bold">{{ getTemperatureByUnit(weather).min }}</p>
+                        <p class="text-3 font-sans font-bold">{{ getTemperatureByUnit(weather).unit }}</p>
+                    </div>
                     
                     <div class="flex-1 h-2px mx-4 bg-white rounded"></div>
 
-                    <Transition mode="out-in">
-                        <div :key="props.temperatureUnit" class="flex items-start min-w-45px color-white font-sans">
-                            <p class="text-4 font-sans font-bold">{{ getTemperatureByUnit(weather).max }}</p>
-                            <p class="text-3 font-sans font-bold">{{ getTemperatureByUnit(weather).unit }}</p>
-                        </div>
-                    </Transition>
+                    <div class="flex items-start min-w-45px color-white font-sans">
+                        <p class="text-4 font-sans font-bold">{{ getTemperatureByUnit(weather).max }}</p>
+                        <p class="text-3 font-sans font-bold">{{ getTemperatureByUnit(weather).unit }}</p>
+                    </div>
                 </div>
             </li>
         </ul>
     </div>
 </template>
-
-<style lang="scss" scope>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.3s bounce;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
-</style>

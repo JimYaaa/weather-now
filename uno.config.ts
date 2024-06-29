@@ -26,7 +26,8 @@ export default defineConfig({
 
     shortcuts: [
         {
-            'radio-input': 'appearance-none w-4 h-4 mr-2 flex justify-center items-center border-solid border-white border-2px rounded-50%  before:content-[""] before:block before:w-2 before:h-2 before:rounded-50% before:transform before:scale-1 before:bg-white checked:before:scale-100 transition-all transition-500'
+            'radio-input': 'appearance-none w-4 h-4 mr-2 flex justify-center items-center border-solid border-white border-2px rounded-50%  before:content-[""] before:block before:w-2 before:h-2 before:rounded-50% before:transform before:scale-1 before:bg-white checked:before:scale-100 transition-all transition-500',
+            'notification-block': 'h-full flex justify-center items-center text-4 md-text-6 text-center font-sans color-white leading-6',
         }
     ]
 })

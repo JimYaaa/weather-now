@@ -73,7 +73,7 @@ export const useLocation = async (name: Ref<string>) => {
         }
         isPending.value = false
 
-        if (!response.results) gecodingNotFoundMessage.value = `Sorry We Can't Find The City "${newName}", Please Try Again.`
+        if (!response.results) gecodingNotFoundMessage.value = `Sorry we can't find the city "${newName}", please try again.`
     }, 500))
 
     return {
