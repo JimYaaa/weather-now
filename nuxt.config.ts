@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     '@unocss/nuxt',
     "@nuxt/icon",
     "@vueuse/nuxt",
+    '@nuxt/test-utils/module',
   ],
 
   css: [

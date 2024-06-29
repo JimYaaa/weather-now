@@ -23,9 +23,14 @@
     "@iconify-json/mdi": "^1.1.67",
     "@iconify-json/svg-spinners": "^1.1.2",
     "@iconify-json/wi": "^1.1.8",
+    "@nuxt/test-utils": "^3.13.1",
     "@unocss/nuxt": "^0.61.0",
     "@unocss/preset-web-fonts": "^0.61.0",
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^14.12.3",
+    "playwright-core": "^1.45.0",
     "sass": "^1.77.6",
-    "unocss": "^0.61.0"
+    "unocss": "^0.61.0",
+    "vitest": "^1.6.0"
   }
 }
