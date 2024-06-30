@@ -14,10 +14,24 @@ export const useLocation = async (name: Ref<string>) => {
     const isError = ref(false)
     const isPending = ref(false)
     const gecodingNotFoundMessage = ref('')
+    const { store: weatherStore } = useWeatherStore()
 
     watch(name, useDebounceFn(async (newName) => {
         gecodingNotFoundMessage.value = ''
         isError.value = false
+
+        const isLocationExit = weatherStore.has(newName.toLowerCase())
+
+        if (isLocationExit) {
+            const weather = weatherStore.get(newName.toLowerCase())
+
+            data.value = {
+                generationtime_ms: 0,
+                results: weather.gecoding,
+            }
+
+            return
+        }
 
         if (!newName) {
             data.value = {

@@ -7,9 +7,19 @@ export const useWeather = async (gecoding: Ref<Gecoding>) => {
     const weather = ref<WeatherAPIRes | null>(null)
     const isPending = ref<boolean>(false)
     const isError = ref(false)
+    const { store, setStore } = useWeatherStore()
 
 
     watch(gecoding, async () => {
+        const { name } = gecoding.value
+        const isWeatherExit = store.has(name.toLowerCase())
+
+        if (isWeatherExit) {
+            const weatherStore = store.get(name.toLowerCase())
+            weather.value = weatherStore
+            return
+        }
+
         if (!gecoding.value.latitude || !gecoding.value.longitude) {
             weather.value = null
             return
@@ -47,6 +57,10 @@ export const useWeather = async (gecoding: Ref<Gecoding>) => {
 
         weather.value = res
         isPending.value = false
+        setStore({
+            gecoding: gecoding.value,
+            ...res
+        })
     }, {
         deep: true
     })

@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@vueuse/nuxt",
     '@nuxt/test-utils/module',
+    '@pinia/nuxt',
   ],
 
   css: [
