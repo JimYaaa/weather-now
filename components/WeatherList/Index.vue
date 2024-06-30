@@ -8,10 +8,12 @@ const gecoding = defineModel('gecoding', {
     type: Object as PropType<Gecoding>,
 })
 
-const weatherStore = defineModel('weatherStore', {
+const weatherStorage = defineModel('weatherStorage', {
     type: Array<WeatherStore>,
     default: []
 })
+
+useStorage('weatherStorage', weatherStorage)
 
 const isWidgetOpen = defineModel('isWidgetOpen', {
     type: Boolean,
@@ -30,9 +32,6 @@ const selectedWeatherIndex = defineModel('selectedWeatherIndex', {
     default: null
 })
 
-
-useStorage('weatherStore', weatherStore)
-
 function selectWeather(weatherInfo: WeatherInfo, index: number) {
     gecoding.value = weatherInfo.location
     selectedWeatherIndex.value = index
@@ -43,11 +42,11 @@ function addWeather(weatherInfo: WeatherInfo) {
 
     if (!currentWeather) return
 
-   const isExited = weatherStore.value.find((weather: WeatherStore) => (weather.id === location.id) && location.id)
+   const isExited = weatherStorage.value.find((weather: WeatherStore) => (weather.id === location.id) && location.id)
 
    if (isExited) return
 
-    weatherStore.value.push({
+    weatherStorage.value.push({
         id: location.id,
         name: location.name,
         country: location.country,
@@ -56,9 +55,7 @@ function addWeather(weatherInfo: WeatherInfo) {
         location,
     })
 
-    selectedWeatherIndex.value = weatherStore.value.length - 1
-    useLocalStorage('weatherStore', weatherStore.value)
-
+    selectedWeatherIndex.value = weatherStorage.value.length - 1
 }
 </script>
 
@@ -75,9 +72,9 @@ function addWeather(weatherInfo: WeatherInfo) {
         <div class="relative w-full flex-1">
             <ul class="absolute top-0 left-0 md-relative w-full h-full flex-1 md-max-h-400px overflow-auto">
                 <li
-                    v-for="weather, index in weatherStore"
+                    v-for="weather, index in weatherStorage"
                     :key="weather.id"
-                    :class="{ 'border-yellow': weather.id === weatherStore[selectedWeatherIndex]?.id }"
+                    :class="{ 'border-yellow': weather.id === weatherStorage[selectedWeatherIndex]?.id }"
                     class="
                         flex justify-between items-stretch
                         p-4 mb-4 last:mb-0

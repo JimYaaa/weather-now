@@ -9,7 +9,7 @@ import { Transition } from 'vue'
 
 const search = ref<string>('')
 const temperatureUnit = ref<string>('celsius')
-const weatherStore = ref<WeatherStore[]>([])
+const weatherStorage = ref<WeatherStore[]>([])
 const selectedWeatherIndex = ref<number | null>(null)
 
 const { 
@@ -19,27 +19,27 @@ const {
     gecodingNotFoundMessage,
 } = await useLocation(search)
 
-const isWeatherEmpty = computed(() => !search.value && !weatherStore.value.length)
+const isWeatherEmpty = computed(() => !search.value && !weatherStorage.value.length)
 
-watch(weatherStore, (weatherStore) => {
-    // when user first loaded page get first weather in weatherStore if weatherStore is not empty
-    if (!search.value && weatherStore.length) {
-        gecoding.value = weatherStore[0].location
+watch(weatherStorage, (weatherStorage) => {
+    // when user first loaded page get first weather in weatherStorage if weatherStorage is not empty
+    if (!search.value && weatherStorage.length) {
+        gecoding.value = weatherStorage[0].location
         selectedWeatherIndex.value = 0
     }
 })
 
 watch(location, (newLocation) => {
-    // when user clean input value get first weather in weatherStore if weatherStore is not empty
-    if (!newLocation.results.id && weatherStore.value.length) {
-        gecoding.value = weatherStore.value[0].location
+    // when user clean input value get first weather in weatherStorage if weatherStorage is not empty
+    if (!newLocation.results.id && weatherStorage.value.length) {
+        gecoding.value = weatherStorage.value[0].location
         selectedWeatherIndex.value = 0
         return
     }
 
-    // when user search the location is already in weatherStore change selectedWeatherIndex to highlight list item.
-    const weatherStoreIndex = weatherStore.value.findIndex((weather: WeatherStore) => weather.id === newLocation.results.id)
-    if (weatherStoreIndex !== -1) selectedWeatherIndex.value = weatherStoreIndex
+    // when user search the location is already in weatherStorage change selectedWeatherIndex to highlight list item.
+    const weatherStorageIndex = weatherStorage.value.findIndex((weather: WeatherStore) => weather.id === newLocation.results.id)
+    if (weatherStorageIndex !== -1) selectedWeatherIndex.value = weatherStorageIndex
 
     gecoding.value = newLocation.results
 })
@@ -134,7 +134,7 @@ computed
      
                      <WeatherList
                          v-model:gecoding="gecoding"
-                         v-model:weatherStore="weatherStore"
+                         v-model:weatherStorage="weatherStorage"
                          v-model:selectedWeatherIndex="selectedWeatherIndex"
                          v-model:isWidgetOpen="isWidgetOpen"
                          :weatherInfo="weather"
