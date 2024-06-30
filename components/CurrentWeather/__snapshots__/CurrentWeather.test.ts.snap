@@ -4,18 +4,18 @@ exports[`CurrentWeather > when temperature unit is celsius 1`] = `
 "<div class="w-full flex justify-between items-start">
   <div>
     <div class="flex items-end">
-      <div class="flex items-start color-white font-sans mr-10"><span class="text-20">20</span><span class="text-10">°C</span></div>
+      <div class="flex items-start color-white font-sans mr-10"><span class="text-16 md-text-20">20</span><span class="text-8 md-text-10">°C</span></div>
     </div>
-    <div class="my-4">
-      <p class="font-sans text-6 md-text-5 color-white">Taiwan </p>
+    <div class="my-6">
+      <p class="font-sans text-4 md-text-6 color-white">Taiwan </p>
     </div>
     <div class="flex justify-start items-center color-white">
-      <div class="flex flex-col items-center"><span class="iconify i-mdi:weather-windy color-white mb-1 text-6" aria-hidden="true"></span>
-        <p>100km/h</p>
+      <div class="flex flex-col items-center"><span class="iconify i-mdi:weather-windy color-white mb-1 text-4 md-text-6" aria-hidden="true"></span>
+        <p class="text-4 md-text-6 mt-2">100km/h</p>
       </div>
       <div class="w-1px h-40px mx-4 bg-white"></div>
-      <div class="flex flex-col items-center"><span class="iconify i-mdi:water color-white mb-1 text-6" aria-hidden="true"></span>
-        <p>100%</p>
+      <div class="flex flex-col items-center"><span class="iconify i-mdi:water color-white mb-1 text-4 md-text-6" aria-hidden="true"></span>
+        <p class="text-4 md-text-6 mt-2">100%</p>
       </div>
     </div>
   </div>
@@ -27,18 +27,18 @@ exports[`CurrentWeather > when temperature unit is fahrenheit 1`] = `
 "<div class="w-full flex justify-between items-start">
   <div>
     <div class="flex items-end">
-      <div class="flex items-start color-white font-sans mr-10"><span class="text-20">50</span><span class="text-10">°F</span></div>
+      <div class="flex items-start color-white font-sans mr-10"><span class="text-16 md-text-20">50</span><span class="text-8 md-text-10">°F</span></div>
     </div>
-    <div class="my-4">
-      <p class="font-sans text-6 md-text-5 color-white">Taiwan </p>
+    <div class="my-6">
+      <p class="font-sans text-4 md-text-6 color-white">Taiwan </p>
     </div>
     <div class="flex justify-start items-center color-white">
-      <div class="flex flex-col items-center"><span class="iconify i-mdi:weather-windy color-white mb-1 text-6" aria-hidden="true"></span>
-        <p>100km/h</p>
+      <div class="flex flex-col items-center"><span class="iconify i-mdi:weather-windy color-white mb-1 text-4 md-text-6" aria-hidden="true"></span>
+        <p class="text-4 md-text-6 mt-2">100km/h</p>
       </div>
       <div class="w-1px h-40px mx-4 bg-white"></div>
-      <div class="flex flex-col items-center"><span class="iconify i-mdi:water color-white mb-1 text-6" aria-hidden="true"></span>
-        <p>100%</p>
+      <div class="flex flex-col items-center"><span class="iconify i-mdi:water color-white mb-1 text-4 md-text-6" aria-hidden="true"></span>
+        <p class="text-4 md-text-6 mt-2">100%</p>
       </div>
     </div>
   </div>

@@ -31,7 +31,7 @@ describe('WeatherList', () => {
     beforeEach(async () => {
         component = await mountSuspended(WeatherList, {
             weatherInfo,
-            weatherStore: []
+            weatherStorage: []
         })
     })
 
@@ -44,7 +44,7 @@ describe('WeatherList', () => {
     it('when location name equal location country only show one of them', async () => {
         await component.setProps({
             weatherInfo,
-            weatherStore: [
+            weatherStorage: [
                 {
                     "id": 1668285,
                     "name": "Taiwan",
@@ -61,7 +61,7 @@ describe('WeatherList', () => {
     it('when location name and country is different show both of them', async () => {
         await component.setProps({
             weatherInfo,
-            weatherStore: [
+            weatherStorage: [
                 {
                     "id": 1668284,
                     "name": "Osaka",
